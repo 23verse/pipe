@@ -1,0 +1,42 @@
+bookdown::gitbook:
+  highlight: "default"
+  split_by: "chapter"
+  config:
+    toc:
+      before: |
+        <li><a href="./index.html">PIPE</a></li>
+      after: |
+        <li>Email: fh12355@rjh.com.cn</li>
+      collapse: subsection
+      scroll_highlight: yes
+    toolbar:
+      position: fixed
+    search: no
+    edit: null
+    fontsettings:
+      theme: white
+      family: sans
+      size: 2
+    download: NO
+    sharing:
+      facebook: no
+      github: no
+      twitter: no
+      linkedin: no
+      weibo: no
+      instapaper: no
+      vk: no
+    info: no
+    
+bookdown::pdf_book:
+  latex_engine: xelatex
+  keep_tex: yes
+  template: "default"
+  toc_depth: 2
+  toc_unnumbered: no
+  toc_appPIPEix: yes
+  pandoc_args: --top-level-division=chapter
+bookdown::tufte_html_book:
+  highlight: "default"
+  split_by: "none"
+  toc: false

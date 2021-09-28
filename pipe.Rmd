@@ -1,0 +1,255 @@
+---
+documentclass: book
+classoption: oneside
+title: "Pleiotropy Informing Prioritisation and Evaluation"
+author: |
+ | National Research Centre for Translational Medicine at Shanghai, Ruijin Hospital affiliated to Shanghai Jiao Tong University School of Medicine, Shanghai, China
+vignette: >
+ %\VignetteIndexEntry{PIPE Booklet}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+output: 
+  BiocStyle::html_document:
+        toc: true
+        toc_depth: 3
+        number_sections: true
+        theme: journal
+        highlight: monochrome
+        toc_float: true
+        code_folding: hide
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(collapse=TRUE, comment="##")
+knitr::opts_chunk$set(dpi=300)
+knitr::opts_chunk$set(cache=FALSE)
+knitr::opts_chunk$set(echo=TRUE)
+knitr::opts_chunk$set(warning=FALSE)
+knitr::opts_chunk$set(message=FALSE)
+knitr::opts_chunk$set(fig_cap="yes")
+knitr::opts_chunk$set(eval=F)
+```
+
+
+# Overview {#index}
+
+```{r logo, fig.cap="Overview of Pleiotropy Informing Prioritisation and Evaluation (PIPE) applied to psychiatric disorders. Schematic illustration of 4 steps designed for therapeutic target prioritisation, taking as inputs pleiotropic loci. Step 1 is to identify core genes with genomic evidence (leveraging context-specific functional genomic datasets) and peripheral genes with network evidence (leveraging the knowledge of gene/protein interactions sourced from STRING). Step 2 is to identify informative genomic predictors (cGene and eGene) that are not less important than the baseline predictor, i.e. nearby gene predictor (nGene). Step 3 is to combine informative predictors, generating a genome-wide list of prioritised target genes (targets at the gene level), ranked by the PIPE score. Step 4 is to identify a manageable list of genes that are most likely to mediate the crosstalk between KEGG pathways (that is, targets at the pathway crosstalk level).", fig.width=10, fig.height=10.8, echo=FALSE, eval=T, fig.align="center",out.width="90%"}
+library(png)
+library(grid)
+img <- readPNG("booklet.PIPE.overview.png")
+grid.raster(img)
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
+cd ~/Sites/XGR/PIPE/BOOKLET
+################################################
+R
+library(tidyverse)
+
+## load
+load("now.PIPE_booklet.RData")
+## save
+save(list=ls(), file="now.PIPE_booklet.RData", compress="xz")
+
+## bookdown::render_book + bookdown::gitbook
+## use configuration in '_output.yml' and '_bookdown.yml'
+bookdown::render_book("now.PIPE_booklet.Rmd", c("bookdown::gitbook","bookdown::pdf_book","bookdown::tufte_html_book")[1])
+
+q('no')
+
+####################################################
+
+##########################
+https://23verse.github.io/pipe
+##########################
+## bookdown::render_book + bookdown::gitbook
+cd ~/Sites/SVN/github/pipe
+# delete previous *.html *.png *.css *.js *.ttf *.Rmd files *.yml files
+find ./ -type f -name '*.html' -o -type f -name '*.png' -o -type f -name '*.css' -o -type f -name '*.js' -o -type f -name '*.ttf' -o -type f -name '*.Rmd' -o -type f -name '*.yml' -o -type f -name '*.RDS' -o -type f -name '*.r' | xargs rm -rf
+############
+# copy the whole package from ~/Sites/XGR/PIPE/BOOKLET/PIPE2booklet to ~/Sites/SVN/github/pipe
+cp -rf ~/Sites/XGR/PIPE/BOOKLET/PIPE2booklet/* ./
+# copy/rename ~/Sites/XGR/PIPE/BOOKLET/now.PIPE_booklet.Rmd to ~/Sites/SVN/github/pipe/pipe.Rmd
+cp -rf ~/Sites/XGR/PIPE/BOOKLET/now.PIPE_booklet.Rmd ./pipe.Rmd
+cp -rf ~/Sites/XGR/PIPE/BOOKLET/_bookdown.yml ./_bookdown.yml
+cp -rf ~/Sites/XGR/PIPE/BOOKLET/_output.yml ./_output.yml
+# add new *.html *.png *.css *.js *.ttf *.Rmd *.yml files
+git status | grep 'modified' | awk '{print $2}' | xargs git add
+git status | grep 'deleted' | awk '{print $2}' | xargs git rm
+find ./ -type f -name '*.html' -o -type f -name '*.png' -o -type f -name '*.css' -o -type f -name '*.js' -o -type f -name '*.ttf' -o -type f -name '*.Rmd' -o -type f -name '*.yml' -o -type f -name '*.RDS' -o -type f -name '*.r' | xargs git add
+git add --all
+git commit -m 'Update end'
+git push origin main
+##########################
+
+####################################################
+## GitHub Pages
+
+One site per account but unlimited projects can be created from https://pages.github.com:
+
+> **One site `https://github.com/23verse/23verse.github.io`**
+
+# visit https://github.com/new (enter "23verse.github.io" -> Initialize this repository with a README)
+# clone into the local machine 
+cd ~/Sites/SVN/github
+git clone git@github.com:23verse/23verse.github.io
+cd ~/Sites/SVN/github/23verse.github.io
+git pull origin master
+## https://github.com/23verse/23verse.github.io/settings/access: add "hfang-bristol"
+echo "Hello 23verse" > index.html
+git add --all
+git commit -m 'Initial commit'
+git push origin master
+# Alive (https://23verse.github.io)
+
+> **A project `https://github.com/23verse/pipe`**
+
+# visit https://github.com/new (enter "pipe" -> Initialize this repository with a README)
+## https://github.com/23verse/pipe/settings/access: add "hfang-bristol"
+# clone into the local machine 
+cd ~/Sites/SVN/github
+git clone git@github.com:23verse/pipe.git
+cd ~/Sites/SVN/github/pipe
+git pull origin main
+echo "Hello end" > index.html
+git add --all
+git commit -m 'Initial commit'
+git push origin main
+# visit https://github.com/23verse/pipe/settings -> GitHub Pages (main/root)
+# Alive (https://23verse.github.io/pipe): Pleiotropy Informing Prioritisation and Evaluation (PIPE)
+####################################################
+```
+
+```{r, eval=F, echo=F}
+library(tidyverse)
+library(openxlsx)
+RData.location <- "~/Sites/XGR/PIPE/BOOKLET"
+```
+
+```{r, eval=F, echo=F}
+#########################
+# psychiatric disorders
+#########################
+## PSYCH_priority.xlsx
+cp ~/Databases/grant_app/jobs/Oxford/Oxford_Wellcome_Trust_Centre_for_Human_Genetics/ULTRA-DD/BID/outputs_cross/PSYCH_priority.xlsx ~/Sites/XGR/PIPE/BOOKLET
+
+## PSYCH_crosstalk.xlsx
+cp ~/Databases/grant_app/jobs/Oxford/Oxford_Wellcome_Trust_Centre_for_Human_Genetics/ULTRA-DD/BID/outputs_cross/PSYCH_crosstalk.xlsx ~/Sites/XGR/PIPE/BOOKLET
+
+#########################
+# inflammatory disorders
+#########################
+## INFLAM_priority.xlsx
+cp ~/Databases/grant_app/jobs/Oxford/Oxford_Wellcome_Trust_Centre_for_Human_Genetics/ULTRA-DD/BID/outputs_cross/INFLAM_priority.xlsx ~/Sites/XGR/PIPE/BOOKLET
+
+## INFLAM_crosstalk.xlsx
+cp ~/Databases/grant_app/jobs/Oxford/Oxford_Wellcome_Trust_Centre_for_Human_Genetics/ULTRA-DD/BID/outputs_cross/INFLAM_crosstalk.xlsx ~/Sites/XGR/PIPE/BOOKLET
+
+
+#########################
+# prioritisation map
+#########################
+## crossdisease_suprahex.xlsx
+cp ~/Databases/grant_app/jobs/Oxford/Oxford_Wellcome_Trust_Centre_for_Human_Genetics/ULTRA-DD/BID/outputs_cross/crossdisease_suprahex.xlsx ~/Sites/XGR/PIPE/BOOKLET
+
+```
+
+# Psychiatric target genes
+
+## Manhattan plot
+
+```{r manhattan-psych, fig.cap="Manhattan plot illustrating psychiatric disorder PIPE score (y-axis) for ~15,000 target genes (color-coded by chromosomes; x-axis), with top 30 labelled.", fig.width=10, fig.height=2.32, echo=FALSE, eval=T, fig.align="center",out.width="100%"}
+library(png)
+library(grid)
+img <- readPNG("booklet.PIPE.manhattan_psych.png")
+grid.raster(img)
+```
+
+## Table
+
+Notably, genes are ranked by PIPE score (see the column `Score`, ranging from 0 to 5).
+
+```{r, echo=FALSE, eval=T}
+openxlsx::read.xlsx("PSYCH_priority.xlsx") %>% as_tibble() %>% transmute(Target=name, Rank=rank, Score=signif(rating,digits=4), Description=description, nGene, cGene, eGene) %>% DT::datatable(options=list(pageLength=10,searchHighlight=T,dom='Bfrtip',buttons=c('csv','copy'), dom='t',scrollX=T), style='default', caption="", rownames=FALSE, escape=F, extensions=c('Buttons'))
+```
+
+
+# Psychiatric crosstalk genes
+
+## Network visualisation
+
+```{r crosstalk-psych, fig.cap="Pathway crosstalk identified by integrating target PIPE score information with knowledge of gene interactions. Nodes are labelled by gene symbols together with PIPE rank.", fig.width=10, fig.height=9.67, echo=FALSE, eval=T, fig.align="center",out.width="80%"}
+library(png)
+library(grid)
+img <- readPNG("booklet.PIPE.crosstalk_psych.png")
+grid.raster(img)
+```
+
+## Table
+
+```{r, echo=FALSE, eval=T}
+openxlsx::read.xlsx("PSYCH_crosstalk.xlsx") %>% as_tibble() %>% transmute(Target=name, Rank=rank, Score=signif(rating,digits=4), Description=description, nGene, cGene, eGene) %>% DT::datatable(options=list(pageLength=10,searchHighlight=T,dom='Bfrtip',buttons=c('csv','copy'), dom='t',scrollX=T), style='default', caption="", rownames=FALSE, escape=F, extensions=c('Buttons'))
+```
+
+
+# Inflammatory target genes
+
+## Manhattan plot
+
+```{r manhattan-inflam, fig.cap="Manhattan plot illustrating psychiatric disorder PIPE score (y-axis) for ~15,000 target genes (color-coded by chromosomes; x-axis), with top 30 labelled.", fig.width=10, fig.height=2.32, echo=FALSE, eval=T, fig.align="center",out.width="100%"}
+library(png)
+library(grid)
+img <- readPNG("booklet.PIPE.manhattan_inflam.png")
+grid.raster(img)
+```
+
+## Table
+
+Notably, genes are ranked by PIPE score (see the column `Score`, ranging from 0 to 5).
+
+```{r, echo=FALSE, eval=T}
+openxlsx::read.xlsx("INFLAM_priority.xlsx") %>% as_tibble() %>% transmute(Target=name, Rank=rank, Score=signif(rating,digits=4), Description=description, nGene, cGene, eGene) %>% DT::datatable(options=list(pageLength=10,searchHighlight=T,dom='Bfrtip',buttons=c('csv','copy'), dom='t',scrollX=T), style='default', caption="", rownames=FALSE, escape=F, extensions=c('Buttons'))
+```
+
+
+# Inflammatory crosstalk genes
+
+## Network visualisation
+
+```{r crosstalk-inflam, fig.cap="Pathway crosstalk identified by integrating target PIPE score information with knowledge of gene interactions. Nodes are labelled by gene symbols together with PIPE rank.", fig.width=10, fig.height=9.67, echo=FALSE, eval=T, fig.align="center",out.width="80%"}
+library(png)
+library(grid)
+img <- readPNG("booklet.PIPE.crosstalk_inflam.png")
+grid.raster(img)
+```
+
+## Table
+
+```{r, echo=FALSE, eval=T}
+openxlsx::read.xlsx("INFLAM_crosstalk.xlsx") %>% as_tibble() %>% transmute(Target=name, Rank=rank, Score=signif(rating,digits=4), Description=description, nGene, cGene, eGene) %>% DT::datatable(options=list(pageLength=10,searchHighlight=T,dom='Bfrtip',buttons=c('csv','copy'), dom='t',scrollX=T), style='default', caption="", rownames=FALSE, escape=F, extensions=c('Buttons'))
+```
+
+
+# Prioritisation map
+
+## 2D map
+
+```{r suprahex, fig.cap="Pathway crosstalk-based prioritisation map between psychiatric disorders and inflammatory disorders. The map was constructed using the 2D supra-hexagonal map applied to a matrix (containing PIPE scores) of 124 pathway crosstalk target genes that were identified in either psychiatric disorders or inflammatory disorders. (A) Illustration of the supra-hexagonal map used to self-organise these 124 target genes. Top panel: the 2D map architecture consists of 37 hexagons that are indexed in circular outward (H1-H37). Bottom panel: the number of genes mapped onto each hexagon. (B) Prioritisation map showing gene prioritisation profiles for psychiatric disorders (top) and inflammatory disorders (bottom). (C) Target gene clusters. The prioritisation map divided into 4 clusters, each covering continuous hexagons separated in while border.", fig.width=10, fig.height=6.07, echo=FALSE, eval=T, fig.align="center",out.width="80%"}
+library(png)
+library(grid)
+img <- readPNG("booklet.PIPE.suprahex.png")
+grid.raster(img)
+```
+
+## Table
+
+Notably, the column `PSYCH` refers to PIPE scores in psychiatric disorders, and `INFLAM` for PIPE scores in inflammatory disorders.
+
+```{r, echo=FALSE, eval=T}
+openxlsx::read.xlsx('crossdisease_suprahex.xlsx') %>% as_tibble() %>% arrange(Cluster,Index,Target) %>% mutate(Cluster=str_replace_all(Cluster,'C','') %>% as.numeric()) %>% mutate_at(c('PSYCH','INFLAM'), 
+function(x) signif(x,digits=3)) -> df
+
+df %>% DT::datatable(options=list(pageLength=10,searchHighlight=T,dom='Bfrtip',buttons=c('csv','copy'), dom='t',scrollX=T,fixedColumns=list(leftColumns=3)), style='default', caption="", rownames=FALSE, escape=F, extensions=c('Buttons','FixedColumns'))
+```
+
