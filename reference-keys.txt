@@ -5,10 +5,10 @@ fig:manhattan-inflam
 fig:crosstalk-inflam
 fig:suprahex
 index
-psychiatric-target-genes
+neuropsychiatric-target-genes
 manhattan-plot
 table
-psychiatric-crosstalk-genes
+neuropsychiatric-crosstalk-genes
 network-visualisation
 table-1
 inflammatory-target-genes

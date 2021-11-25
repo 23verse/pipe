@@ -1,7 +1,7 @@
 ---
 documentclass: book
 classoption: oneside
-title: "Pleiotropy Informing Prioritisation and Evaluation"
+title: "Pleiotropy Informing Prioritisation and Evaluation (PIPE)"
 author: |
  | National Research Centre for Translational Medicine at Shanghai, Ruijin Hospital affiliated to Shanghai Jiao Tong University School of Medicine, Shanghai, China
 vignette: >
@@ -33,7 +33,7 @@ knitr::opts_chunk$set(eval=F)
 
 # Overview {#index}
 
-```{r logo, fig.cap="Overview of Pleiotropy Informing Prioritisation and Evaluation (PIPE) applied to psychiatric disorders. Schematic illustration of 4 steps designed for therapeutic target prioritisation, taking as inputs pleiotropic loci. Step 1 is to identify core genes with genomic evidence (leveraging context-specific functional genomic datasets) and peripheral genes with network evidence (leveraging the knowledge of gene/protein interactions sourced from STRING). Step 2 is to identify informative genomic predictors (cGene and eGene) that are not less important than the baseline predictor, i.e. nearby gene predictor (nGene). Step 3 is to combine informative predictors, generating a genome-wide list of prioritised target genes (targets at the gene level), ranked by the PIPE score. Step 4 is to identify a manageable list of genes that are most likely to mediate the crosstalk between KEGG pathways (that is, targets at the pathway crosstalk level).", fig.width=10, fig.height=10.8, echo=FALSE, eval=T, fig.align="center",out.width="90%"}
+```{r logo, fig.cap="Overview of Pleiotropy Informing Prioritisation and Evaluation (PIPE). (A) The conceptual illustration. Notably, the PIPE artwork is designed to resemble the streamlined pipeline for pleiotropy-first therapeutic target identification and evaluation. (B) Schematic illustration of three steps designed for therapeutic target identification both at the gene and pathway crosstalk level. (C) Instrumental analyses enabling performance evaluation, including the supportive procedure of how to define clinical proof-of-concept targets and how to simulate negative controls, PICT (Pleiotropy Informing Clinical Therapeutics), and benchmarking.", fig.width=10, fig.height=12.8, echo=FALSE, eval=T, fig.align="center",out.width="90%"}
 library(png)
 library(grid)
 img <- readPNG("booklet.PIPE.overview.png")
@@ -155,7 +155,7 @@ cp ~/Databases/grant_app/jobs/Oxford/Oxford_Wellcome_Trust_Centre_for_Human_Gene
 
 ```
 
-# Psychiatric target genes
+# Neuropsychiatric target genes
 
 ## Manhattan plot
 
@@ -175,11 +175,11 @@ openxlsx::read.xlsx("PSYCH_priority.xlsx") %>% as_tibble() %>% transmute(Target=
 ```
 
 
-# Psychiatric crosstalk genes
+# Neuropsychiatric crosstalk genes
 
 ## Network visualisation
 
-```{r crosstalk-psych, fig.cap="Pathway crosstalk identified by integrating target PIPE score information with knowledge of gene interactions. Nodes are labelled by gene symbols together with PIPE rank.", fig.width=10, fig.height=9.67, echo=FALSE, eval=T, fig.align="center",out.width="80%"}
+```{r crosstalk-psych, fig.cap="Pathway crosstalk identified by integrating target PIPE score information with knowledge of gene interactions. Nodes are labelled by gene symbols together with PIPE rank.", fig.width=10, fig.height=9.67, echo=FALSE, eval=T, fig.align="center",out.width="70%"}
 library(png)
 library(grid)
 img <- readPNG("booklet.PIPE.crosstalk_psych.png")
@@ -217,7 +217,7 @@ openxlsx::read.xlsx("INFLAM_priority.xlsx") %>% as_tibble() %>% transmute(Target
 
 ## Network visualisation
 
-```{r crosstalk-inflam, fig.cap="Pathway crosstalk identified by integrating target PIPE score information with knowledge of gene interactions. Nodes are labelled by gene symbols together with PIPE rank.", fig.width=10, fig.height=9.67, echo=FALSE, eval=T, fig.align="center",out.width="80%"}
+```{r crosstalk-inflam, fig.cap="Pathway crosstalk identified by integrating target PIPE score information with knowledge of gene interactions. Nodes are labelled by gene symbols together with PIPE rank.", fig.width=10, fig.height=9.67, echo=FALSE, eval=T, fig.align="center",out.width="70%"}
 library(png)
 library(grid)
 img <- readPNG("booklet.PIPE.crosstalk_inflam.png")
