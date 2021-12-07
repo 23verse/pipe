@@ -33,7 +33,7 @@ knitr::opts_chunk$set(eval=F)
 
 # Overview {#index}
 
-```{r logo, fig.cap="Overview of Pleiotropy Informing Prioritisation and Evaluation (PIPE). (A) The conceptual illustration. Notably, the PIPE artwork is designed to resemble the streamlined pipeline for pleiotropy-first therapeutic target identification and evaluation. (B) Schematic illustration of three steps designed for therapeutic target identification both at the gene and pathway crosstalk level. (C) Instrumental analyses enabling performance evaluation, including the supportive procedure of how to define clinical proof-of-concept targets and how to simulate negative controls, PICT (Pleiotropy Informing Clinical Therapeutics), and benchmarking.", fig.width=10, fig.height=12.8, echo=FALSE, eval=T, fig.align="center",out.width="90%"}
+```{r logo, fig.cap="Overview of Pleiotropy Informing Prioritisation and Evaluation (PIPE). (A) The conceptual illustration. Notably, the PIPE artwork is designed to resemble the streamlined pipeline for pleiotropy-first therapeutic target identification and evaluation. (B) Schematic illustration of three steps designed for therapeutic target identification both at the gene and pathway crosstalk level. (C) Instrumental analyses enabling performance evaluation, including the supportive procedure of how to define clinical proof-of-concept targets and how to simulate negative controls, PICT (Pleiotropy Informing Clinical Therapeutics), and benchmarking.", fig.width=10, fig.height=12.8, echo=FALSE, eval=T, fig.align="center",out.width="95%"}
 library(png)
 library(grid)
 img <- readPNG("booklet.PIPE.overview.png")
